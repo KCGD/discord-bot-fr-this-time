@@ -1,0 +1,27 @@
+{
+  "name": "newproject",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/main.js",
+  "scripts": {
+    "test": "npx tsc && echo \"--- START PROGRAM ---\" && node src/main",
+    "run": "node src/main",
+    "build": "npx tsc && npx pkg package.json",
+    "clean": "find ./src -name \"*.js\" -type f | while read file; do rm -v \"$file\"; done"
+  },
+  "author": "",
+  "license": "GPL-2.0-only",
+  "devDependencies": {
+    "@types/node": "^18.16.0",
+    "pkg": "^5.8.1",
+    "typescript": "^5.0.4"
+  },
+  "pkg": {
+    "outputPath": "./Build",
+    "targets": ["linux"],
+    "assets": [
+      "./src/**/*"
+    ]
+  },
+  "bin": "./src/main.js"
+}
