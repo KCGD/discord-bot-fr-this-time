@@ -1,0 +1,24 @@
+import { Client, Events, GatewayIntentBits } from 'discord.js';
+import { Log } from './util/debug';
+
+//var for client status
+let clientReady:boolean = false;
+
+//create client object (exported globally)
+export const client:Client = new Client({ intents: [GatewayIntentBits.Guilds] });
+
+//export getter for client status
+export function ClientIsReady(): boolean {
+    return clientReady;
+}
+
+//client login function (exported)
+export function Login(token:string): boolean {
+    client.login(token);
+    return true;
+}
+
+//client login event listener (sets clientReady global boolean)
+client.once(Events.ClientReady, c => {
+    Log(`I`, false, `Logged in as ${c.user.tag}`);
+});
