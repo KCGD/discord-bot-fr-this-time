@@ -18,10 +18,17 @@
   },
   "pkg": {
     "outputPath": "./Build",
-    "targets": ["linux"],
+    "targets": [
+      "linux"
+    ],
     "assets": [
       "./src/**/*"
     ]
   },
-  "bin": "./src/main.js"
+  "bin": "./src/main.js",
+  "dependencies": {
+    "@types/cli-color": "^2.0.2",
+    "cli-color": "^2.0.3",
+    "discord.js": "^14.11.0"
+  }
 }
