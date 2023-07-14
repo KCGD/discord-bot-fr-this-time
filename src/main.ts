@@ -13,7 +13,8 @@ import { Collection, Events, REST, Routes } from 'discord.js';
 
 
 //command imports
-import * as PingCommand from './commands/ping'
+import * as PingCommand from './commands/ping'; //ping command
+import * as McStatsCommand from './commands/mc_stats'; //mc server stats command
 
 
 //define process args type
@@ -107,7 +108,7 @@ function Main(): void {
             //do client commands???
             client.on(Events.InteractionCreate, async interaction => {
                 //@ts-ignore
-                globalCommands[interaction.commandName].execute(interaction)
+                globalCommands[interaction.commandName].execute(interaction);
             })
         })
     } else {
