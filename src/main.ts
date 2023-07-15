@@ -78,7 +78,7 @@ function Main(): void {
             for(let i = 0; i < commandFiles.length; i++) {
                 if(path.extname(commandFiles[i]) === ".js") {
                     let thisCommandPath:string = path.join(__dirname, "./commands", commandFiles[i]);
-                    Log(`I`, true, `Registering ${path.basename(commandFiles[i])} from "${thisCommandPath}"`);
+                    Log(`I`, true, `\tRegistering ${path.basename(commandFiles[i])}`);
                     let command = require(path.join(__dirname, "./commands", commandFiles[i])).MainCommand;
                     //@ts-ignore
                     client.commands.push(command.data.toJSON());
