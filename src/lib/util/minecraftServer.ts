@@ -132,7 +132,7 @@ export function StartEndpointServer(endpoint:string, callback:StartCallback): an
                 } else if(response.status === "up") {
                     //server is up, no further interaction. close socket
                     d3 = Date.now();
-                    Log(`I`, true, `\tServer started. Took ${d3-d1}s`)
+                    Log(`I`, true, `\tServer started. Took ${d3-d1}ms`)
                     callback(null, response, "complete");
                     if(socket.OPEN) {
                         socket.close();
