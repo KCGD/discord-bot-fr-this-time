@@ -7,7 +7,7 @@ import { Rizz } from "../lib/rizz";
 
 export const MainCommand = {
     data: new SlashCommandBuilder()
-        .setName('start-server')
+        .setName('start')
         .setDescription("Starts the current world."),
     execute: async (interaction:CommandInteraction) => {
         if(Endpoint) {
