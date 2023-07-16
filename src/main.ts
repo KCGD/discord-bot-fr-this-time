@@ -114,5 +114,11 @@ function Main(): void {
         })
     } else {
         //handle non existant token and/or endpoint vars
+        if(!Token) {
+            Log(`E`, false, `Token has not been defined. Please define it in .vars (or elsewhere) with the DISCORD_BOT_API_KEY environment variable.`);
+            process.exit(1);
+        } else if(!Endpoint) {
+            Log(`E`, false, `Endpoint has not been defined. Please define it in .vars (or elsewhere) with the MC_SERVER_ENDPOINT environment variable.`)
+        }
     }
 }
