@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, CommandInteraction } from "discord.js";
+import { SlashCommandBuilder, CommandInteraction, EmbedBuilder } from "discord.js";
 import { Log } from "../lib/util/debug";
 import { GetEndpointStatus } from "../lib/util/minecraftServer";
 import { Endpoint } from "../main";
@@ -17,8 +17,25 @@ export const MainCommand = {
             GetEndpointStatus(Endpoint, async function(error, response): Promise<void> {
                 if(error) {
                     await interaction.followUp(`Could not get status from minecraft server (error code: ${error}). Please contact the bot devs.`);
-                } else {
-                    await interaction.followUp(`\`\`\`JSON\n${JSON.stringify(response, null, 2)}\`\`\``);
+                } else if(response) {
+                    //create players string
+                    let players:string = "none";
+                    if(response.result.players.length > 0) {
+                        players = response.result.players.join(", ");
+                    }
+
+                    //create embed
+                    let statsEmbed = new EmbedBuilder()
+                        .setColor('#5873ff')
+                        .setTitle(`Server: ${response.result.worldName}`)
+                        .addFields(
+                            { name: 'Online', value: `${response.result.childWritable.toString()}`, inline:true },
+                            { name: 'Type', value: `${response.result.type}`, inline:true },
+                            { name: 'Version', value: `${response.result.version}`, inline:true },
+                            { name: 'Players', value: players, inline:true},
+                        )
+
+                    await interaction.followUp({'embeds': [statsEmbed]});
                 }
             });
         } else {
