@@ -19,7 +19,7 @@
   "pkg": {
     "outputPath": "./Build",
     "targets": [
-      "linux"
+      "node18-linux"
     ],
     "assets": [
       "./src/**/*"
