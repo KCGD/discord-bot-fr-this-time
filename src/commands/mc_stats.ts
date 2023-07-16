@@ -10,7 +10,7 @@ export const MainCommand = {
         .setDescription("Gets the status of the minecraft server (WIP)"),
     execute: async (interaction:CommandInteraction) => {
         if(Endpoint) {
-            await interaction.reply("Fetching the server's status ... one sec"); //placeholder for in-dev commands
+            await interaction.reply("Fetching the server's status ... one sec");
 
             //get the status of the minecraft server, returns with error or response object. Socket has been closed by this point.
             //followup method must be used after initial reply

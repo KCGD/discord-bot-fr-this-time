@@ -29,10 +29,10 @@ export var ProcessArgs:processArgs = {
 }
 
 
-//global command store because the one discordjs makes you use is really weird
+//global command store
 let globalCommands = {};
 
-//read api key and endpoint from env. export from main
+//read api key and endpoint from environment. export from main
 export const Token:string | undefined = process.env.DISCORD_BOT_API_KEY;
 export const Endpoint:string | undefined = process.env.MC_SERVER_ENDPOINT;
 
@@ -71,7 +71,7 @@ function Main(): void {
 
             //register client commands
             Log(`I`, false, `Registering client commands ...`);
-            //@ts-ignore - ignored the following line due to nonexistant property error. This is exactly how they do it in the docs so it should be ok.
+            //@ts-ignore - ignored the following line due to nonexistant property error
             client.commands = [];
             let commandFiles:string[] = fs.readdirSync(path.join(__dirname, "./commands"));
 
@@ -94,7 +94,7 @@ function Main(): void {
                     if(client.user?.id) {
                         const data = rest.put(
                             Routes.applicationCommands(client.user?.id),
-                            //@ts-ignore - i fucking hate this library so much...
+                            //@ts-ignore (client.commands was added manually)
                             { body: client.commands },
                         );
                         Log(`I`, false, `Commands registered`);
@@ -106,7 +106,7 @@ function Main(): void {
                     Log(`E`, false, `Publishing failed: ${e}`);
                 }
 
-            //do client commands???
+            //do client commands
             client.on(Events.InteractionCreate, async interaction => {
                 //@ts-ignore
                 globalCommands[interaction.commandName].execute(interaction);

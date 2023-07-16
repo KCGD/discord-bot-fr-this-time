@@ -11,7 +11,7 @@ export const MainCommand = {
         .setDescription("Starts the current world."),
     execute: async (interaction:CommandInteraction) => {
         if(Endpoint) {
-            await interaction.reply("Starting the minecraft server. This might take a minute"); //placeholder for in-dev commands
+            await interaction.reply("Starting the minecraft server. This might take a minute");
 
             StartEndpointServer(Endpoint, async function(error, response, phase): Promise<void> {
                 if(error) {
