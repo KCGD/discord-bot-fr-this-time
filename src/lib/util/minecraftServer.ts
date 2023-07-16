@@ -33,29 +33,42 @@ export interface StatusCallback {(error:ErrorCode|null, response:StatusResponse|
 
 //status command
 export function GetEndpointStatus(endpoint:string, callback:StatusCallback): any {
+    Log(`I`, true, `Getting server status ...`);
+
+    //timing vars
+    let d1:number, d2:number = 0;
+
     const socket:WebSocket = new WebSocket(endpoint);
-    Log(`I`, ProcessArgs.debug, `Connecting to endpoint "${endpoint}" ...`);
+    Log(`I`, true, `\tConnecting to endpoint "${endpoint}" ...`);
 
     //socket onopen event - send api request
     socket.onopen = function(): void {
-        Log(`I`, ProcessArgs.debug, `Sending status request ...`);
+        Log(`I`, ProcessArgs.debug, `\tSending status request ...`);
+
         socket.send(JSON.stringify({
             "c":"getStatus",
             "isApi":true
         }))
+
+        //log time
+        d1 = Date.now();
     }
 
     //socket recieve events - processing output
     socket.onmessage = function(message): void {
+        d2 = Date.now();
+        Log(`I`, true, `\tRecieved status. Response took ${d2-d1}ms`);
+
         //add try-parse, switch based on command responses
         let response:StatusResponse|null = null;
 
         //try parsing the server's response. If parse fails, return an error
         try {
             response = JSON.parse(message.data.toString()) as StatusResponse;
+            Log(`I`, true, `\tResponse parsed successfully`);
             callback(null, response);
         } catch (e) {
-            Log(`E`, false, `Failed to parse endpoint response data, ${e}`);
+            Log(`E`, false, `\tFailed to parse endpoint response data, ${e}`);
             callback("PARSE_RESPONSE_FAILED", null);
         }
 
