@@ -6,7 +6,7 @@ import * as ErrorCodes from '../lib/util/errors';
 
 export const MainCommand = {
     data: new SlashCommandBuilder()
-        .setName('mc-status')
+        .setName('status')
         .setDescription("Gets the status of the minecraft server (WIP)"),
     execute: async (interaction:CommandInteraction) => {
         if(Endpoint) {
