@@ -18,12 +18,6 @@ export const MainCommand = {
                 if(error) {
                     await interaction.followUp(`Could not get status from minecraft server (error code: ${error}). Please contact the bot devs.`);
                 } else if(response) {
-                    //create players string
-                    let players:string = "none";
-                    if(response.result.players.length > 0) {
-                        players = response.result.players.join(", ");
-                    }
-
                     //create embed
                     let statsEmbed = new EmbedBuilder()
                         .setColor('#5873ff')
@@ -32,7 +26,6 @@ export const MainCommand = {
                             { name: 'Online', value: `${response.result.childWritable.toString()}`, inline:true },
                             { name: 'Type', value: `${response.result.type}`, inline:true },
                             { name: 'Version', value: `${response.result.version}`, inline:true },
-                            { name: 'Players', value: players, inline:true},
                         )
 
                     await interaction.followUp({'embeds': [statsEmbed]});
