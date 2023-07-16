@@ -24,7 +24,7 @@ export const MainCommand = {
                     if(phase === "confirm") { //startup confirmation from server, report world stats
                         await interaction.followUp(`Starting world ${response?.worldName} on minecraft ${response?.version}`);
                     } else if (phase === "complete") {
-                        await interaction.followUp(`Server is up! ${Rizz()}`)
+                        await interaction.followUp(`Server is up! *${Rizz()}*`);
                     }
                 }
             })
