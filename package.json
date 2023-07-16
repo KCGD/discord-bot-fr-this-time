@@ -6,7 +6,7 @@
   "scripts": {
     "test": "npx tsc && echo \"--- START PROGRAM ---\" && node src/main",
     "run": "node src/main",
-    "build": "npx tsc && npx pkg package.json -C Brotli",
+    "build": "npx tsc && npx pkg package.json -C Brotli --debug",
     "clean": "find ./src -name \"*.js\" -type f | while read file; do rm -v \"$file\"; done"
   },
   "author": "",
