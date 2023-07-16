@@ -98,6 +98,7 @@ function Main(): void {
                             { body: client.commands },
                         );
                         Log(`I`, false, `Commands registered`);
+                        Log(`I`, false, "Bot is online.");
                     } else {
                         throw "Client user id is null";
                     }
