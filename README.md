@@ -58,6 +58,8 @@ brew install nodejs npm
 choco install nodejs
 ```
 
+You may also install nodejs directly from their website [nodejs.org](https://nodejs.org/)
+
 ### Cloning the source code
 Next! Clone the repository *(believe it or not, this is important for compiling from source code)*
 
