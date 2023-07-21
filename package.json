@@ -27,7 +27,10 @@
   },
   "bin": "./src/main.js",
   "dependencies": {
+    "@discordjs/builders": "^1.6.3",
     "@discordjs/opus": "^0.9.0",
+    "@discordjs/rest": "^1.7.1",
+    "@discordjs/voice": "^0.16.0",
     "@types/cli-color": "^2.0.2",
     "cli-color": "^2.0.3",
     "discord.js": "^14.11.0",
