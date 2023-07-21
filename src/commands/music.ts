@@ -1,14 +1,38 @@
 import { SlashCommandBuilder, CommandInteraction, EmbedBuilder } from "discord.js";
 import { Log } from "../lib/util/debug";
 import * as ErrorCodes from '../lib/util/errors';
+import { CreateGuildSystem, JoinVc } from "../lib/voice";
 
 export const MainCommand = {
     data: new SlashCommandBuilder()
         .setName('play')
         .setDescription("Plays a song from a youtube link (or song name)"),
     execute: async (interaction:CommandInteraction) => {
-        interaction.reply("Command still under development!");
-        console.log(interaction);
+        //interaction.reply("Command still under development!");
+        if(interaction.guildId) {
+            CreateGuildSystem(interaction.guildId);
+            JoinVc(interaction, function(error, channel, connection, errorString) {
+                if(!error) {
+                    interaction.reply(`Playing (idk something ig)`);
+                } else {
+                    switch (error) {
+                        case "CHANNEL_NOT_FOUND": {
+                            interaction.reply(`Could not find the current channel! Please make sure this command was run in a guild.`);
+                        } break;
+
+                        case "CHANNEL_NOT_VC": {
+                            interaction.reply(`Please join a voice chat to use this command.`);
+                        } break;
+
+                        case "JOIN_VC_FAILED": {
+                            interaction.reply(`Failed to join VC. Here's some details on what went wrong: ||${errorString}||`);
+                        } break;
+                    }
+                }
+            });
+        } else {
+            interaction.reply("You must be in a guild to use this command.");
+        }
     }
 }
 
@@ -86,7 +110,7 @@ export const MainCommand = {
             joinedTimestamp: 1688939847550,
             defaultMessageNotifications: 0,
             systemChannelFlags: [SystemChannelFlagsBitField],
-            maximumMembers: 500000,
+            maximumMembers: 500000,//vc joined successfully. no response required.
             maximumPresences: null,
             maxVideoChannelUsers: 25,
             maxStageVideoChannelUsers: 50,
