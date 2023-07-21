@@ -5,7 +5,7 @@ import { Log } from './util/debug';
 let clientReady:boolean = false;
 
 //create client object
-export const client:Client = new Client({ intents: [GatewayIntentBits.Guilds] });
+export const client:Client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildVoiceStates], });
 
 //export getter for client status
 export function ClientIsReady(): boolean {
