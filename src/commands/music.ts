@@ -1,19 +1,22 @@
 import { SlashCommandBuilder, CommandInteraction, EmbedBuilder } from "discord.js";
 import { Log } from "../lib/util/debug";
 import * as ErrorCodes from '../lib/util/errors';
-import { CreateGuildSystem, JoinVc } from "../lib/voice";
+import { CreateAudioSystem, JoinVc, AudioGuilds, InitVoice } from "../lib/voice";
+import * as fs from 'fs';
 
 export const MainCommand = {
     data: new SlashCommandBuilder()
         .setName('play')
         .setDescription("Plays a song from a youtube link (or song name)"),
     execute: async (interaction:CommandInteraction) => {
-        //interaction.reply("Command still under development!");
         if(interaction.guildId) {
-            CreateGuildSystem(interaction.guildId);
+            let thisGuildId:string = interaction.guildId;
+            CreateAudioSystem(thisGuildId);
             JoinVc(interaction, function(error, channel, connection, errorString) {
                 if(!error) {
-                    interaction.reply(`Playing (idk something ig)`);
+                    interaction.reply(`Playing test audio`);
+                    fs.createReadStream('/home/b/Downloads/feelgoodinc.ogg').pipe(AudioGuilds[thisGuildId].stream);
+                    InitVoice(thisGuildId);
                 } else {
                     switch (error) {
                         case "CHANNEL_NOT_FOUND": {
