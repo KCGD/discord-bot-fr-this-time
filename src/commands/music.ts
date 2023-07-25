@@ -15,8 +15,8 @@ export const MainCommand = {
             JoinVc(interaction, function(error, channel, connection, errorString) {
                 if(!error) {
                     interaction.reply(`Playing test audio`);
+                    InitVoice(thisGuildId, channel, connection);
                     fs.createReadStream('/home/b/Downloads/feelgoodinc.ogg').pipe(AudioGuilds[thisGuildId].stream);
-                    InitVoice(thisGuildId);
                 } else {
                     switch (error) {
                         case "CHANNEL_NOT_FOUND": {
