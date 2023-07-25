@@ -5,6 +5,9 @@ import { Channel, CommandInteraction, StageChannel, VoiceBasedChannel, VoiceChan
 import { ErrorCode } from "./util/errors";
 import { Log } from "./util/debug";
 import { PassThrough, Readable, Stream } from "stream";
+import { temp } from "../main";
+import { CreateFifo } from "./util/fifo";
+import { join } from "path";
 
 //type definitions
 //from youtube
@@ -26,7 +29,8 @@ export type Song = {
     Here's how this works:
         connection: this is the actual connection to the vc (returned from joinVoiceChat())
         channel: this is the channel of the voice chat
-        stream: (INPUT) this is a passthrough stream that gets routed to the resource object. stream all input to this
+        stream: (INPUT) this is a passthrough stream that gets routed to the resource object. stream general input to this
+        fifo: the path to the audiosystem's fifo path. This gets piped into the stream when Init is called. file based inputs (yt-dlp) should write to this. It's essentially a file-based extension of the stream property.
         resource: audioresource created for player.
         player: the final destination of all the audio. this is what is passed directly to the vc
         queue: the song queue
@@ -37,6 +41,8 @@ export type AudioSystem = {
     connection:VoiceConnection | undefined;
     channel:VoiceBasedChannel | undefined;
     stream:PassThrough;
+    fifo:string | undefined;
+    fifoRead:fs.ReadStream | undefined;
     resource:AudioResource | undefined;
     player:AudioPlayer | undefined;
     queue: Song[];
@@ -53,6 +59,8 @@ export function CreateAudioSystem(guildID:string): void {
             connection: undefined,
             channel: undefined,
             stream: new PassThrough(),
+            fifo: undefined,
+            fifoRead: undefined,
             resource: undefined,
             player: undefined,
             queue: []
@@ -104,6 +112,13 @@ export function InitVoice(sysId:string, channel?:VoiceBasedChannel, connection?:
             AudioGuilds[sysId].resource = createAudioResource(
                 AudioGuilds[sysId].stream, 
             );
+
+            //initialize the fifo
+            AudioGuilds[sysId].fifo = join(temp, "fifo", String(sysId));
+            CreateFifo(AudioGuilds[sysId].fifo!, {overwrite:true, recursive: true});
+            //init the fiforead
+            AudioGuilds[sysId].fifoRead = fs.createReadStream(AudioGuilds[sysId].fifo!);
+            AudioGuilds[sysId].fifoRead?.pipe(AudioGuilds[sysId].stream);
 
             //initialize the player
             AudioGuilds[sysId].player = createAudioPlayer();
