@@ -1,4 +1,5 @@
 import * as fs from 'fs';
+import { tmpdir } from 'os';
 import * as path from "path";
 import * as process from "process";
 
@@ -30,8 +31,13 @@ export var ProcessArgs:processArgs = {
 }
 
 
+//define temporary path
+export const temp:string = path.join(tmpdir(), "hodorbot");
+
+
 //global command store
 let globalCommands = {};
+
 
 //read api key and endpoint from environment. export from main
 export const Token:string | undefined = process.env.DISCORD_BOT_API_KEY;
@@ -65,6 +71,10 @@ function Main(): void {
     if(Token && Endpoint) {
         Log(`I`, false, `Attempt login ...`);
         Login(Token);
+
+        //create temporary path
+        if(!fs.existsSync(temp)) {fs.mkdirSync(temp)};
+        Log(`I`, true, `Created temporary path: ${temp}`);
 
         //client onready handler
         client.on('ready', function(): void {
