@@ -20,8 +20,8 @@ export type Song = {
 
 /* 
     TODO:
-        Everything appears to work just fine but it doesnt (no errors, audio wont play.)
-        not sure whats up.
+        audio system functional! make input functionality (through slash command)
+        [MAKE SURE yt-dlp OUTPUTS TO THE AUDIOSYSTEM's FIFO]
 */
 
 //audio system object (per-guild)
