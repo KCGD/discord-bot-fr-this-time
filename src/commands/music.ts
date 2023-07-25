@@ -3,6 +3,7 @@ import { Log } from "../lib/util/debug";
 import * as ErrorCodes from '../lib/util/errors';
 import { CreateAudioSystem, JoinVc, AudioGuilds, InitVoice } from "../lib/voice";
 import * as fs from 'fs';
+import { exec, spawn, execSync } from "child_process";
 
 export const MainCommand = {
     data: new SlashCommandBuilder()
@@ -16,7 +17,7 @@ export const MainCommand = {
                 if(!error) {
                     interaction.reply(`Playing test audio`);
                     InitVoice(thisGuildId, channel, connection);
-                    fs.createReadStream('/home/b/Downloads/feelgoodinc.ogg').pipe(AudioGuilds[thisGuildId].stream);
+                    exec(`yt-dlp "ytsearch:gorillaz hollywood" -o - | ffmpeg -y -i - -f mp3 "${AudioGuilds[thisGuildId].fifo}"`);
                 } else {
                     switch (error) {
                         case "CHANNEL_NOT_FOUND": {
