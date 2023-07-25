@@ -1,6 +1,6 @@
 import { Client, Events, GatewayIntentBits } from 'discord.js';
 import { Log } from './util/debug';
-import { bgBlue } from 'cli-color';
+import { bgYellow } from 'cli-color';
 
 
 //var for client status
@@ -30,7 +30,7 @@ client.once(Events.ClientReady, c => {
 
     //log testing warning message
     if(c.user.tag.includes("TESTING")) {
-        Log(`W`, false, bgBlue(`
+        Log(`W`, false, bgYellow(`
         
           WARNING: BOT IN TESTING MODE  
         `));
