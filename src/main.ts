@@ -15,6 +15,7 @@ import { Collection, Events, REST, Routes } from 'discord.js';
 //command imports
 import * as PingCommand from './commands/ping'; //ping command
 import * as McStatsCommand from './commands/mc_stats'; //mc server stats command
+import { generateDependencyReport } from '@discordjs/voice';
 
 
 //define process args type
