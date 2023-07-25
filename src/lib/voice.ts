@@ -93,27 +93,22 @@ export function JoinVc(interaction:CommandInteraction, callback:joinVcCallback):
 
 //function to initialize the stream setup
 //works on the global AudioGuilds object
-export function InitVoice(sysId:string): ErrorCode | void {
+export function InitVoice(sysId:string, channel?:VoiceBasedChannel, connection?:VoiceConnection): ErrorCode | void {
     if (AudioGuilds[sysId]) {
         if (!AudioGuilds[sysId].resource && !AudioGuilds[sysId].player) {
+            //assign the relevant connection and channel if applicable
+            AudioGuilds[sysId].channel = channel;
+            AudioGuilds[sysId].connection = connection;
+
             //initialize the audio resource with passthrough stream as input
             AudioGuilds[sysId].resource = createAudioResource(
                 AudioGuilds[sysId].stream, 
-                {
-                    'inputType': StreamType.Arbitrary
-                }
             );
-
-            //console.log(AudioGuilds[sysId].resource);
 
             //initialize the player
             AudioGuilds[sysId].player = createAudioPlayer();
-            if(AudioGuilds[sysId].player && AudioGuilds[sysId].resource) { //added because ts compiler doesnt recognize these cannot be null after the check in the previous line.
-                AudioGuilds[sysId].player?.play(AudioGuilds[sysId].resource!);
-                AudioGuilds[sysId].connection?.subscribe(AudioGuilds[sysId].player!);
-            } else {
-                //definition failed. create handling here
-            }
+            AudioGuilds[sysId].player?.play(AudioGuilds[sysId].resource!);
+            AudioGuilds[sysId].connection?.subscribe(AudioGuilds[sysId].player!);
         } else {
             return "AUDIOGUILD_ALREADY_INITIALIZED";
         }
