@@ -9,9 +9,8 @@
     All discord interactions should be handled elsewhere.
 */
 
-import { WebSocket } from "ws";
 import { Log } from "./debug";
-import { ProcessArgs } from "../../main";
+import { WebSocket } from "ws";
 import { ErrorCode } from "./errors";
 
 

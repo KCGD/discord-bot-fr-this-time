@@ -1,5 +1,4 @@
 import { SlashCommandBuilder, CommandInteraction } from "discord.js";
-import { Log } from "../lib/util/debug";
 
 export const MainCommand = {
     data: new SlashCommandBuilder()

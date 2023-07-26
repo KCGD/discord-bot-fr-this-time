@@ -1,6 +1,6 @@
-import { Client, Events, GatewayIntentBits } from 'discord.js';
 import { Log } from './util/debug';
 import { bgYellow } from 'cli-color';
+import { Client, Events, GatewayIntentBits } from 'discord.js';
 
 
 //var for client status

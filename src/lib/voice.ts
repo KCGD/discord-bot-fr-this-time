@@ -1,13 +1,13 @@
-import { tmpdir } from "os";
 import * as fs from 'fs';
-import { joinVoiceChannel, createAudioPlayer, createAudioResource, NoSubscriberBehavior, VoiceConnection, AudioResource, AudioPlayer, StreamType } from '@discordjs/voice';
-import { Channel, CommandInteraction, StageChannel, VoiceBasedChannel, VoiceChannel, VoiceState } from "discord.js";
-import { ErrorCode } from "./util/errors";
-import { Log } from "./util/debug";
-import { PassThrough, Readable, Stream } from "stream";
-import { temp } from "../main";
-import { CreateFifo } from "./util/fifo";
 import { join } from "path";
+import { temp } from "../main";
+import { Log } from "./util/debug";
+import { CreateFifo } from "./util/fifo";
+import { ErrorCode } from "./util/errors";
+import { PassThrough } from "stream";
+import { CommandInteraction, VoiceBasedChannel, VoiceState } from "discord.js";
+import { joinVoiceChannel, createAudioPlayer, createAudioResource, VoiceConnection, AudioResource, AudioPlayer } from '@discordjs/voice';
+
 
 //type definitions
 //from youtube
@@ -37,6 +37,8 @@ export type Song = {
     
     all properties will be undefined initially (except for queue and stream which can be initialized as empty). these become defined once InitVoice() is called with a reference to said audiosystem
 */
+
+
 export type AudioSystem = {
     connection:VoiceConnection | undefined;
     channel:VoiceBasedChannel | undefined;
@@ -47,6 +49,7 @@ export type AudioSystem = {
     player:AudioPlayer | undefined;
     queue: Song[];
 }
+
 
 //guild systems assignable object
 export let AudioGuilds: {[key:string]: AudioSystem} = {}

@@ -1,5 +1,6 @@
-import { red, yellow, green,  } from "cli-color";
 import { ProcessArgs } from "../../main";
+import { red, yellow, green,  } from "cli-color";
+
 
 type LogType = "I" | "W" | "E"; //Info, Warning, Error
 

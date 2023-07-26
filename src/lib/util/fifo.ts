@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import { join, dirname } from 'path';
+import { dirname } from 'path';
 import { ErrorCode } from './errors';
 import { execSync } from 'child_process';
 

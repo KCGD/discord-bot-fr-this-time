@@ -1,8 +1,7 @@
-import { SlashCommandBuilder, CommandInteraction, EmbedBuilder } from "discord.js";
-import { Log } from "../lib/util/debug";
-import { GetEndpointStatus } from "../lib/util/minecraftServer";
 import { Endpoint } from "../main";
-import * as ErrorCodes from '../lib/util/errors';
+import { GetEndpointStatus } from "../lib/util/minecraftServer";
+import { SlashCommandBuilder, CommandInteraction, EmbedBuilder } from "discord.js";
+
 
 export const MainCommand = {
     data: new SlashCommandBuilder()

@@ -1,9 +1,7 @@
-import { SlashCommandBuilder, CommandInteraction, EmbedBuilder } from "discord.js";
-import { Log } from "../lib/util/debug";
-import * as ErrorCodes from '../lib/util/errors';
-import { CreateAudioSystem, JoinVc, AudioGuilds, InitVoice } from "../lib/voice";
-import * as fs from 'fs';
 import { exec, spawn, execSync } from "child_process";
+import { CreateAudioSystem, JoinVc, AudioGuilds, InitVoice } from "../lib/voice";
+import { SlashCommandBuilder, CommandInteraction, EmbedBuilder } from "discord.js";
+
 
 export const MainCommand = {
     data: new SlashCommandBuilder()
