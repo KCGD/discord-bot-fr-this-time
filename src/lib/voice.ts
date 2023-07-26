@@ -2,9 +2,10 @@ import * as fs from 'fs';
 import { join } from "path";
 import { temp } from "../main";
 import { Log } from "./util/debug";
+import { PassThrough } from "stream";
 import { CreateFifo } from "./util/fifo";
 import { ErrorCode } from "./util/errors";
-import { PassThrough } from "stream";
+import { ChildProcess, exec } from 'child_process';
 import { CommandInteraction, VoiceBasedChannel, VoiceState } from "discord.js";
 import { joinVoiceChannel, createAudioPlayer, createAudioResource, VoiceConnection, AudioResource, AudioPlayer } from '@discordjs/voice';
 
@@ -31,9 +32,12 @@ export type Song = {
         channel: this is the channel of the voice chat
         stream: (INPUT) this is a passthrough stream that gets routed to the resource object. stream general input to this
         fifo: the path to the audiosystem's fifo path. This gets piped into the stream when Init is called. file based inputs (yt-dlp) should write to this. It's essentially a file-based extension of the stream property.
+        fifoRead: The readstream (fs.createReadStream) reading from the fifo. This is always piped into the stream property.
         resource: audioresource created for player.
         player: the final destination of all the audio. this is what is passed directly to the vc
         queue: the song queue
+        initialized: boolean denoting if initialization has been completed or not
+        downloadProcess: the child process for yt-dlp / ffmpeg.
     
     all properties will be undefined initially (except for queue and stream which can be initialized as empty). these become defined once InitVoice() is called with a reference to said audiosystem
 */
@@ -48,6 +52,8 @@ export type AudioSystem = {
     resource:AudioResource | undefined;
     player:AudioPlayer | undefined;
     queue: Song[];
+    initialized:boolean;
+    downloadProcess:ChildProcess | undefined;
 }
 
 
@@ -66,7 +72,9 @@ export function CreateAudioSystem(guildID:string): void {
             fifoRead: undefined,
             resource: undefined,
             player: undefined,
-            queue: []
+            queue: [],
+            initialized:false,
+            downloadProcess: undefined,
         };
     }
 }
