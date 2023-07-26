@@ -3,6 +3,13 @@ import { tmpdir } from 'os';
 import * as path from "path";
 import * as process from "process";
 
+/* 
+    TODO:
+
+    Add dep checking: yt-dlp and ffmpeg
+
+    Make queue functionality / inputable commands
+*/
 
 //import from discord library
 import {client, ClientIsReady, Login} from './lib/discord';
