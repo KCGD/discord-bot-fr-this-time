@@ -1,6 +1,7 @@
 import { exec, spawn, execSync } from "child_process";
 import { CreateAudioSystem, JoinVc, AudioGuilds, InitVoice } from "../lib/voice";
 import { SlashCommandBuilder, CommandInteraction, EmbedBuilder } from "discord.js";
+import { Log } from "../lib/util/debug";
 
 
 export const MainCommand = {
@@ -17,10 +18,26 @@ export const MainCommand = {
         //prevent use in DMs
         if(interaction.guildId) {
             //define song and guild id
-            const song = interaction.options.get("song")?.value;
+            const song:string | undefined = interaction.options.get("song")?.value?.toString();
             const thisGuildId:string = interaction.guildId;
 
-            //create audio system for guild. Will fail silently if audiosystem already exists.
+            //check if song is defined or not
+            if(!song) {
+                interaction.reply("Please give me a song to play");
+                return;
+            }
+
+            //determine if song is direct link or not
+            let songIsLink:boolean = false;
+            try {
+                new URL(song);
+                songIsLink = true;
+            } catch (e) {
+                //no action
+                songIsLink = false;
+            }
+
+            //create audio system for guild. Will fail silently if audiosystem already exists. This behavior is deliberate.
             CreateAudioSystem(thisGuildId);
 
             //check if system initialized or not
@@ -29,7 +46,9 @@ export const MainCommand = {
                 JoinVc(interaction, function(error, channel, connection, errorString) {
                     if(!error) {
                         InitVoice(thisGuildId, channel, connection);
-                        //exec(`yt-dlp "ytsearch:gorillaz hollywood" -o - | ffmpeg -y -i - -f mp3 "${AudioGuilds[thisGuildId].fifo}"`);
+                        let prefix:string = (songIsLink)? "" : "ytsearch:";
+                        Log(`W`, false, `${songIsLink}`);
+                        exec(`yt-dlp "${prefix}${song}" -o - | ffmpeg -y -i - -f mp3 "${AudioGuilds[thisGuildId].fifo}"`);
                     } else {
                         switch (error) {
                             case "CHANNEL_NOT_FOUND": {

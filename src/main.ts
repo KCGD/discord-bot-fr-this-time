@@ -72,8 +72,8 @@ function Main(): void {
     }
 
     //log relevant info if debug enabled
-    Log(`I`, true, `API: Use API key "${Token}"`);
-    Log(`I`, true, `Endpoint: Use endpoint "${Endpoint}"`);
+    //Log(`I`, true, `API: Use API key "${Token}"`);
+    //Log(`I`, true, `Endpoint: Use endpoint "${Endpoint}"`);
 
     //ensure existance of relevent vars
     if(Token && Endpoint) {
